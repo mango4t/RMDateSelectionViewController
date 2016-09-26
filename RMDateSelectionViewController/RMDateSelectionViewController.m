@@ -305,11 +305,11 @@ static UIImage *_cancelImage;
     [self.nowButton addTarget:self action:@selector(nowButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     self.nowButton.titleLabel.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
     self.nowButton.backgroundColor = [UIColor clearColor];
-    self.nowButton.layer.cornerRadius = 4;
+    self.nowButton.layer.cornerRadius = 12;
     self.nowButton.clipsToBounds = YES;
     self.nowButton.translatesAutoresizingMaskIntoConstraints = NO;
     
-    self.datePicker.layer.cornerRadius = 4;
+    self.datePicker.layer.cornerRadius = 12;
     self.datePicker.translatesAutoresizingMaskIntoConstraints = NO;
     
     if ([RMDateSelectionViewController imageForSelectButton]) {
@@ -320,7 +320,7 @@ static UIImage *_cancelImage;
     
     [self.cancelButton addTarget:self action:@selector(cancelButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     self.cancelButton.titleLabel.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
-    self.cancelButton.layer.cornerRadius = 4;
+    self.cancelButton.layer.cornerRadius = 12;
     self.cancelButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.cancelButton setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     
@@ -332,7 +332,7 @@ static UIImage *_cancelImage;
     
     [self.selectButton addTarget:self action:@selector(doneButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     self.selectButton.titleLabel.font = [UIFont boldSystemFontOfSize:[UIFont buttonFontSize]];
-    self.selectButton.layer.cornerRadius = 4;
+    self.selectButton.layer.cornerRadius = 12;
     self.selectButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.selectButton setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
 }
@@ -418,19 +418,19 @@ static UIImage *_cancelImage;
         self.cancelAndSelectButtonContainer.backgroundColor = [UIColor whiteColor];
     }
     
-    self.titleLabelContainer.layer.cornerRadius = 4;
+    self.titleLabelContainer.layer.cornerRadius = 12;
     self.titleLabelContainer.clipsToBounds = YES;
     self.titleLabelContainer.translatesAutoresizingMaskIntoConstraints = NO;
     
-    self.nowButtonContainer.layer.cornerRadius = 4;
+    self.nowButtonContainer.layer.cornerRadius = 12;
     self.nowButtonContainer.clipsToBounds = YES;
     self.nowButtonContainer.translatesAutoresizingMaskIntoConstraints = NO;
     
-    self.datePickerContainer.layer.cornerRadius = 4;
+    self.datePickerContainer.layer.cornerRadius = 12;
     self.datePickerContainer.clipsToBounds = YES;
     self.datePickerContainer.translatesAutoresizingMaskIntoConstraints = NO;
     
-    self.cancelAndSelectButtonContainer.layer.cornerRadius = 4;
+    self.cancelAndSelectButtonContainer.layer.cornerRadius = 12;
     self.cancelAndSelectButtonContainer.clipsToBounds = YES;
     self.cancelAndSelectButtonContainer.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -455,7 +455,7 @@ static UIImage *_cancelImage;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(10)-[pickerContainer]-(10)-|" options:0 metrics:nil views:bindingsDict]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(10)-[cancelSelectContainer]-(10)-|" options:0 metrics:nil views:bindingsDict]];
     
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[pickerContainer]-(10)-[cancelSelectContainer(44)]-(0)-|" options:0 metrics:nil views:bindingsDict]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[pickerContainer]-(10)-[cancelSelectContainer(57)]-(0)-|" options:0 metrics:nil views:bindingsDict]];
     self.pickerHeightConstraint = [NSLayoutConstraint constraintWithItem:self.datePickerContainer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:RM_DATE_PICKER_HEIGHT_PORTRAIT];
     [self.view addConstraint:self.pickerHeightConstraint];
     
@@ -565,7 +565,8 @@ static UIImage *_cancelImage;
     if([self respondsToSelector:@selector(popoverPresentationController)]) {
         CGSize minimalSize = [self.view systemLayoutSizeFittingSize:CGSizeMake(999, 999)];
         self.preferredContentSize = CGSizeMake(minimalSize.width, minimalSize.height+10);
-        self.popoverPresentationController.backgroundColor = self.backgroundView.backgroundColor;
+        self.popoverPresentationController.backgroundColor = [UIColor whiteColor];
+        self.popoverPresentationController.delegate = self;
     }
 }
 
@@ -586,6 +587,10 @@ static UIImage *_cancelImage;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
     [super viewDidDisappear:animated];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
 }
 
 #pragma mark - Orientation
@@ -798,7 +803,7 @@ static UIImage *_cancelImage;
 - (IBAction)cancelButtonPressed:(id)sender {
     if(!self.hasBeenDismissed) {
         self.hasBeenDismissed = YES;
-      
+        
         if(self.cancelButtonAction) {
             self.cancelButtonAction(self);
         }
