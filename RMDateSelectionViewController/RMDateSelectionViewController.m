@@ -311,6 +311,9 @@ static UIImage *_cancelImage;
     
     self.datePicker.layer.cornerRadius = 12;
     self.datePicker.translatesAutoresizingMaskIntoConstraints = NO;
+    if (@available(iOS 13, *)) {
+        self.datePicker.preferredDatePickerStyle = UIDatePickerStyleWheels;
+    }
     
     if ([RMDateSelectionViewController imageForSelectButton]) {
         [self.cancelButton setImage:[RMDateSelectionViewController imageForCancelButton] forState:UIControlStateNormal];
